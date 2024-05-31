@@ -8,6 +8,26 @@ generator client {
   provider = "prisma-client-js"
 }
 
+// package: prisma-class-generator
+// In order to use @nestjs/swagger, the entity must be defined as class.
+//  create a simple tool that generates a typescript file based on schema.prisma.
+//  The generated Classes are formatted with prettier, using the user's prettier config file if present.
+//  This will reduce the effort to define classes directly while using the same single source of truth (schema.prisma)
+generator prismaClassGenerator {
+  provider                 = "prisma-class-generator"
+  output                   = "../libs/common/src/types/prisma"
+  dryRun                   = false
+  separateRelationFields   = true
+  useNonNullableAssertions = true
+}
+
+// package: prisma-dbml-generator
+// Automatically generate a DBML schema from your Prisma Schema.
+// Updates every time npx prisma generate runs. Use dbdiagram.io to visualize your dbml files as Entity-Relationship Diagram:
+generator dbml {
+  provider = "prisma-dbml-generator"
+}
+
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
