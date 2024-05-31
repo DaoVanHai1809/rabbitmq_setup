@@ -9,4 +9,9 @@ export class AppController {
   getHello(): string {
     return this.appService.getHello();
   }
+
+  @Get('users')
+  async getOrders() {
+    return this.appService.getUsers();
+  }
 }
