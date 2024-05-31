@@ -27,4 +27,8 @@ export class UserService {
       };
     }
   }
+
+  sendMessage() {
+    console.log('message here');
+  }
 }

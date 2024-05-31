@@ -2,6 +2,7 @@ import { Controller, Get } from '@nestjs/common';
 import { UserService } from './user.service';
 import {
   Ctx,
+  EventPattern,
   MessagePattern,
   Payload,
   RmqContext,
@@ -29,5 +30,11 @@ export class UserController {
     const result = await this.userService.getListUserRabbit(payload);
     await this.rmqService.ackRabbitMq(context);
     return result;
+  }
+
+  @EventPattern('send-message')
+  async handleOrderCreated(@Ctx() context: RmqContext) {
+    this.userService.sendMessage();
+    this.rmqService.ackRabbitMq(context);
   }
 }

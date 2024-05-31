@@ -1,13 +1,14 @@
 import { BadRequestException, Inject, Injectable } from '@nestjs/common';
 import { USER_SERVICE } from './constants';
 import { ClientProxy } from '@nestjs/microservices';
-import { firstValueFrom } from 'rxjs';
+import { firstValueFrom, lastValueFrom } from 'rxjs';
 
 @Injectable()
 export class AppService {
   constructor(@Inject(USER_SERVICE) private client: ClientProxy) {}
 
   getHello(): string {
+    lastValueFrom(this.client.emit('send-message', {}));
     return 'Hello World!';
   }
 
