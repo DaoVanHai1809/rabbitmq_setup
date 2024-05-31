@@ -7,10 +7,16 @@
   "license": "UNLICENSED",
   "scripts": {
     "format": "prettier --write \"apps/**/*.ts\" \"libs/**/*.ts\"",
-    "start": "nest start",
-    "start:dev": "nest start user --watch",
-    "start:debug": "nest start --debug --watch",
-    "start:prod": "node dist/apps/rabbitmq_setup/main"
+    "api:build": "nest build api",
+    "api:start": "nest start api",
+    "api:start:dev": "nest start api --watch",
+    "api:start:debug": "nest start api --debug --watch",
+    "api:start:prod": "node dist/apps/api/main",
+    "user:build": "nest build user",
+    "user:start": "nest start user",
+    "user:start:dev": "nest start user --watch",
+    "user:start:debug": "nest start user --debug --watch",
+    "user:start:prod": "node dist/apps/user/main"
   },
   "dependencies": {
     "@nestjs/common": "^10.0.0",

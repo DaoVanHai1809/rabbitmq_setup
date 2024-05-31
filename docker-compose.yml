@@ -1,0 +1,40 @@
+version: '3'
+services:
+    postgresdb:
+        image: postgres:15
+        volumes:
+            - db-store:/var/lib/postgres
+        environment:
+            - POSTGRES_DB=projectdemo-db
+            - POSTGRES_USER=postgres
+            - POSTGRES_PASSWORD=secret
+        ports:
+            - ${DB_PORT:-5432}:5432
+        restart: always
+        command: postgres -c shared_buffers=256MB -c max_connections=70 -c temp_buffers=8MB -c work_mem=16MB
+        networks:
+            - projectdemo_network
+    redis:
+        image: redis:latest
+        ports:
+            - ${REDIS_PORT:-6379}:6379
+        networks:
+            - projectdemo_network
+        restart: always
+
+    rabbitmq:
+        image: rabbitmq:3-management-alpine
+        ports:
+            - ${RMQ_PORT:-13308}:5672
+            - ${RMQ_CLIENT_PORT:-9006}:15672
+        networks:
+            - projectdemo_network
+        restart: always
+
+networks:
+    projectdemo_network:
+        name: projectdemo_network
+        driver: bridge
+volumes:
+    db-store:
+        driver: local
