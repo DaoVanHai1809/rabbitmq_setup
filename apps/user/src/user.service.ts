@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { getListUserDto } from './user.dto';
+import axios from 'axios';
 
 @Injectable()
 export class UserService {
@@ -8,11 +9,22 @@ export class UserService {
   }
 
   async getListUserRabbit(payload: getListUserDto) {
-    const { skip, take } = payload;
-    return {
-      message: 'ok',
-      skip,
-      take,
-    };
+    console.log({ payload });
+    try {
+      const response = await axios.get(
+        'https://jsonplaceholder.typicode.com/users',
+      );
+
+      return {
+        status: 'success',
+        data: response.data,
+      };
+    } catch (err) {
+      console.log(err);
+      return {
+        status: 'failed',
+        message: err?.response?.data,
+      };
+    }
   }
 }
